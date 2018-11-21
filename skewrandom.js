@@ -2,8 +2,8 @@ const R = require('ramda')
 const { rnorm } = require('randgen')
 const gaussian = require('gaussian')
 
-console.clear()
-console.log('----------------- skewrandom -----------------')
+// console.clear()
+// console.log('----------------- skewrandom -----------------')
 const getRange = ([min, target, max]) => max - min
 const getMean = ([min, target, max]) => min + (max - min) / 2
 const getDeviation = spec => (getRange(spec) / 3) * (1 - spec[3])
@@ -19,20 +19,33 @@ const aresult = getRandomC(myspec)
 const distFromMean = (pos, spec) => (pos - getMean(spec)) / (getRange(spec) / 2)
 const getWeight = (pos, spec) =>
   1 - Math.abs(Math.tanh(distFromMean(pos, spec)))
-const skewedRandom = (random, spec) =>
+const skewedRandom = (spec, random) =>
   random - getSkew(spec) * getWeight(random, spec)
 
-const drawbar = () => '|'
+const skewedRandomC = R.curry(skewedRandom)
+const skewASpec = R.ap(skewedRandomC, getRandom)
 const getaresult = n => {
   const it = n * 10 + 20
   return {
     myrandom: it,
     distFromMean: distFromMean(it, myspec),
-    getWeight: R.compose(r => r/100, Math.round,R.multiply(100))(getWeight(it, myspec)),
+    getWeight: R.compose(
+      r => r / 100,
+      Math.round,
+      R.multiply(100)
+    )(getWeight(it, myspec)),
     getSkew: getSkew(myspec),
-    skewedRandom: R.compose(r => r/100, Math.round,R.multiply(100))(skewedRandom(it, myspec)),
-    diff: R.compose(r => r/1000, Math.round,R.multiply(1000))(it - skewedRandom(it, myspec))
+    skewedRandom: R.compose(
+      r => r / 100,
+      Math.round,
+      R.multiply(100)
+    )(skewedRandom(myspec, it)),
+    diff: R.compose(
+      r => r / 1000,
+      Math.round,
+      R.multiply(1000)
+    )(it - skewedRandom(myspec, it))
   }
 }
-const mytable = R.times(getaresult, 11)
-console.table(mytable)
+// console.table(R.times(getaresult, 11))
+module.exports = { skewASpec }
