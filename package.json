@@ -1,0 +1,20 @@
+{
+  "name": "mycodirepl",
+  "version": "0.0.1",
+  "description": "",
+  "main": "runme.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Balint Fulop <bfulop@mac.com> (http://abundancia.io/)",
+  "license": "MIT",
+  "dependencies": {
+    "gaussian": "^1.1.0",
+    "ramda": "^0.26.0",
+    "randgen": "^0.1.0",
+    "skew-normal-random": "^1.0.0"
+  },
+  "nodemonConfig": {
+    "verbose": false
+  }
+}
