@@ -1,7 +1,7 @@
 const R = require('ramda')
 const { rlist, rnorm, histogram } = require('randgen')
 const { skewASpec } = require('./skewrandom')
-const { getSpecs, getVectors } = require('./myspecs')
+const { getSpecs, getVectors, getManOverhead } = require('./myspecs')
 
 const logger = v => {
   console.log(v)
@@ -13,8 +13,7 @@ const myspecs = [[20, 70, 120, 0.1]]
 const myvectors = [1]
 
 // 1. correct my specs with my vectors
-// ([a] -> [a]) -> [[a]]
-const correctApoint = avector => R.multiply(avector)
+const correctApoint = avector => R.divide(R.__,avector)
 const correctAspec = avector =>
   R.compose(
     R.over(R.lensIndex(2), correctApoint(avector)),
@@ -29,7 +28,6 @@ const simulateCorrections = (specs, vectors, times) =>
 
 // console.log(' -------------------- ')
 // 2. run simulation with the corrected specs
-// ([[a]] -> [a]) -> [a]
 // const skewASpec = skewASpec
 // const skewSpecs = () => R.map(skewASpec)
 // const simulateSpecsSkew = specsxs => R.times(skewSpecs(specsxs))
@@ -50,20 +48,63 @@ const runSimulation = R.pipe(
 // [[simulatecorrections,simulatecorrection]]
 // [[[simulateskew,simulateskew,simulateskew]]]
 // [[[specresult,sptartar[cresult]]]
-const printBars = R.compose(
-  logger,
+const createBars = R.compose(
   R.join(''),
   R.repeat('|'),
   Math.ceil,
-  r => r / 20
+  r => r / 30
 )
 // lets run and analyse
 const doestimate = () => {
   const estimate = runSimulation(getSpecs(), getVectors(), 100)
 
+  const diff = (a, b) => a - b
+  const sorted = R.sort(diff, estimate)
+  const splits = R.compose(
+    R.map(R.mean),
+    R.splitEvery(sorted.length / 20)
+  )(sorted)
+
+  const roundup = n => Math.round(n * 100) / 100
+  const addSpace = () => ' '
+  const addPadding = R.compose(
+    R.join(''),
+    R.times(addSpace),
+    R.subtract(6),
+    R.length,
+    R.toString
+  )
+  const addoverhead = base =>
+    R.compose(
+      R.add(base),
+      R.multiply(base)
+    )
   console.clear()
-  console.log(R.mean(estimate))
-  R.forEach(printBars, histogram(estimate, 30))
+  console.table([
+    {
+      Mean: Math.round(addoverhead(R.mean(estimate))(getManOverhead())),
+      '60%': Math.round( addoverhead(sorted[Math.ceil(sorted.length * 0.6)])(getManOverhead()) ),
+      '70%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.7)])(getManOverhead())),
+      '80%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.8)])(getManOverhead())),
+      '90%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.9)])(getManOverhead()))
+    }
+  ])
+  // console.log(addoverhead(R.mean(estimate))(getManOverhead()))
+  // console.log(sorted[Math.ceil(sorted.length * 0.8)])
+  const bars = R.map(createBars)
+  bars(histogram(estimate, 20))
+    .map((line, index) => [line, splits[index]])
+    .forEach(([line, localmean], i) => {
+      if (i === 16) {
+        console.log('80% ------------')
+      }
+      const withoverhead = addoverhead(localmean)(getManOverhead())
+      console.log(
+        roundup(withoverhead),
+        addPadding(roundup(withoverhead)),
+        line
+      )
+    })
 }
-// doestimate()
-setInterval(doestimate, 500)
+doestimate()
+// setInterval(doestimate, 250)

@@ -1,11 +1,101 @@
 const R = require('ramda')
 
-const myspecs = [[20, 70, 120, 0.8]]
+ const myspecs = [
+   [1, 3, 6, 0.8, 'edit invitee CSS'],
+   [0.5, 1.5, 4, 0.5, 'edit invitee JS'],
+   [2, 5, 12, 0.7, 'invitee auto-complete'],
+   [1, 2, 4, 0.8, 'directors list light theme'],
+   [1.5, 3.5, 5, 0.9, 'labels listing']
+ ]
+const myvectors = [
+  0.475,
+  2.381,
+  2.667,
+  1.648,
+  2.344,
+  1.458,
+  1.791,
+  2.124,
+  1.29,
+  1.0,
+  1.456,
+  1.376,
+  0.992,
+  0.909,
+  2.202,
+  0.876,
+  0.628,
+  0.608,
+  0.711,
+  0.652,
+  1.023,
+  2.791,
+  0.641,
+  1.0,
+  1.529,
+  1.364,
+  0.63,
+  0.82,
+  0.851,
+  0.395,
+  1.395,
+  0.717,
+  0.254,
+  1.268,
+  0.848,
+  1.011,
+  0.73,
+  0.633,
+  0.469,
+  0.549,
+  0.986,
+  2.727,
+  1.115,
+  0.949,
+  0.694,
+  1.224,
+  0.221,
+  0.956,
+  1.078,
+  2.308,
+  0.938,
+  1.017,
+  0.865,
+  1.389,
+  1.446,
+  0.747,
+  0.581,
+  0.483,
+  0.588,
+  0.458,
+  2.5,
+  0.441,
+  0.645,
+  0.978,
+  0.181,
+  0.486,
+  0.896,
+  1.905,
+  1.0,
+  0.678,
+  1.273,
+  0.837,
+  0.588,
+  2.022,
+  2.195,
+  0.533,
+  0.93,
+  1.513,
+  1.558,
+  2.5
+]
 
-const myvectors = [1]
+const mymanagementOverhead = 0.2
 
 const getSpecs = () => myspecs
 
 const getVectors = () => myvectors
 
-module.exports = { getSpecs, getVectors }
+const getManOverhead = () => mymanagementOverhead
+
+module.exports = { getSpecs, getVectors, getManOverhead }
