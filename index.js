@@ -1,11 +1,16 @@
 const R = require('ramda')
 const { rlist, rnorm, histogram } = require('randgen')
 const { skewASpec } = require('./skewrandom')
+const { getSpecs, getVectors } = require('./myspecs')
 
-console.clear()
-const myspecs = [[20, 30, 120, 0.6], [20, 30, 120, 0.9], [2, 5, 8, 0.9]]
+const logger = v => {
+  console.log(v)
+  return v
+}
+// console.clear()
+const myspecs = [[20, 70, 120, 0.1]]
 
-const myvectors = [0.3, 0.6, 0.7, 2]
+const myvectors = [1]
 
 // 1. correct my specs with my vectors
 // ([a] -> [a]) -> [[a]]
@@ -22,7 +27,7 @@ const simulateCorrections = (specs, vectors, times) =>
   R.times(R.curry(correctSpecs)(specs, vectors), times)
 // console.log(simulateCorrections(myspecs, myvectors, 2))
 
-console.log(' -------------------- ')
+// console.log(' -------------------- ')
 // 2. run simulation with the corrected specs
 // ([[a]] -> [a]) -> [a]
 // const skewASpec = skewASpec
@@ -32,7 +37,7 @@ const skewSpecsXS = (specs, seed) => R.map(skewASpec, specs)
 const simulateSkew = specsxs => R.times(R.curry(skewSpecsXS)(specsxs), 100)
 // console.log(simulateSkew(myspecs, 3))
 
-console.log(' -------------------- ')
+// console.log(' -------------------- ')
 // 3. pipe the calculations
 const runSimulation = R.pipe(
   simulateCorrections,
@@ -44,12 +49,21 @@ const runSimulation = R.pipe(
 // we have
 // [[simulatecorrections,simulatecorrection]]
 // [[[simulateskew,simulateskew,simulateskew]]]
-// [[[specresult,specresult]]]
-
+// [[[specresult,sptartar[cresult]]]
+const printBars = R.compose(
+  logger,
+  R.join(''),
+  R.repeat('|'),
+  Math.ceil,
+  r => r / 20
+)
 // lets run and analyse
-const estimate = runSimulation(myspecs, myvectors, 100)
-// console.log(estimate)
+const doestimate = () => {
+  const estimate = runSimulation(getSpecs(), getVectors(), 100)
 
-console.log(R.mean(estimate))
-console.log(histogram(estimate))
-
+  console.clear()
+  console.log(R.mean(estimate))
+  R.forEach(printBars, histogram(estimate, 30))
+}
+// doestimate()
+setInterval(doestimate, 500)

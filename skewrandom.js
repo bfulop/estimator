@@ -6,15 +6,16 @@ const gaussian = require('gaussian')
 // console.log('----------------- skewrandom -----------------')
 const getRange = ([min, target, max]) => max - min
 const getMean = ([min, target, max]) => min + (max - min) / 2
-const getDeviation = spec => (getRange(spec) / 3) * (1 - spec[3])
+const getDeviation = spec => (getRange(spec) * 2) * (1 - spec[3])
 const getSkew = spec => getMean(spec) - spec[1]
 const myspec = [20, 30, 120, 0.68]
 const myrandom = 30
 
 const rnormC = R.curry(rnorm)
-const getRandom = (spec, iteration) => rnormC(getMean(spec))(getDeviation(spec))
-const getRandomC = R.curry(getRandom)
-const aresult = getRandomC(myspec)
+const getRandom = (spec, iteration) => rnorm(getMean(spec), getDeviation(spec))
+// const getRandom = (spec, iteration) => gaussian(getMean(spec), 100).ppf(Math.random())
+// const getRandomC = R.curry(getRandom)
+// const aresult = getRandomC(myspec)
 
 const distFromMean = (pos, spec) => (pos - getMean(spec)) / (getRange(spec) / 2)
 const getWeight = (pos, spec) =>
@@ -23,7 +24,8 @@ const skewedRandom = (spec, random) =>
   random - getSkew(spec) * getWeight(random, spec)
 
 const skewedRandomC = R.curry(skewedRandom)
-const skewASpec = R.ap(skewedRandomC, getRandom)
+// const skewASpec = spec => R.ap(skewedRandomC, getRandom)
+const skewASpec = spec => skewedRandom(spec, getRandom(spec))
 const getaresult = n => {
   const it = n * 10 + 20
   return {
