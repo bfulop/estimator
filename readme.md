@@ -2,7 +2,7 @@
 
 The most advanced projects estimator of the galaxy!
 
-![estimation results](http://815b1b87b51011a7a029-623c55fb68acb92f1f433c6448bed244.r60.cf3.rackcdn.com/estimator/estimation-distribution.webp)
+![estimation results](http://815b1b87b51011a7a029-623c55fb68acb92f1f433c6448bed244.r60.cf3.rackcdn.com/estimator/estimation-distribution.jpg)
 
 Based on the concepts presented in these articles:
 
