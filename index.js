@@ -83,6 +83,7 @@ const doestimate = () => {
   console.table([
     {
       Mean: Math.round(addoverhead(R.mean(estimate))(getManOverhead())),
+      Median: Math.round(addoverhead(R.median(estimate))(getManOverhead())),
       '60%': Math.round( addoverhead(sorted[Math.ceil(sorted.length * 0.6)])(getManOverhead()) ),
       '70%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.7)])(getManOverhead())),
       '80%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.8)])(getManOverhead())),
