@@ -1,6 +1,6 @@
 # Time estimator
 
-The most advanced projects estimator of the galaxy!
+The most advanced projects estimator in the galaxy!
 
 ![estimation results](http://815b1b87b51011a7a029-623c55fb68acb92f1f433c6448bed244.r60.cf3.rackcdn.com/estimator/estimation-distribution.jpg)
 
@@ -11,6 +11,8 @@ Based on the concepts presented in these articles:
 - [How To Estimate Almost Any Software Deliverable in 90 Seconds](https://herdingcats.typepad.com/my_weblog/2013/08/how-to-estimate-almost-any-software-deliverable.html)
 
 ## The inputs
+
+Put these in `./myspecs.js` file. You can for example do some data-cleaning before using importing your vectors for example (only use the last `n` vectors for example, and brag about machine learning!).
 
 ### Your estimation vectors
 
