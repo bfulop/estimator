@@ -57,7 +57,7 @@ This is a list of tasks, each having four numbers:
 
 ### A management overhead
 
-My historical number is about 25%. This is stuff like emails, environment setup, booting in, etc.
+My historical number is about 25%. This is stuff like emails, environment setup, booting in, etc. (Actually it's more like 33%, if I really want to come out of the closet)
 
 ## The simulation
 
