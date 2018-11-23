@@ -13,7 +13,7 @@ const myspecs = [[20, 70, 120, 0.1]]
 const myvectors = [1]
 
 // 1. correct my specs with my vectors
-const correctApoint = avector => R.divide(R.__,avector)
+const correctApoint = avector => R.divide(R.__, avector)
 const correctAspec = avector =>
   R.compose(
     R.over(R.lensIndex(2), correctApoint(avector)),
@@ -57,6 +57,7 @@ const createBars = R.compose(
 // lets run and analyse
 const doestimate = () => {
   const estimate = runSimulation(getSpecs(), getVectors(), 100)
+  const simpleSum = R.compose(R.sum, R.map(r => r[1]))
 
   const diff = (a, b) => a - b
   const sorted = R.sort(diff, estimate)
@@ -82,12 +83,21 @@ const doestimate = () => {
   console.clear()
   console.table([
     {
+      Naive: Math.round(addoverhead(simpleSum(getSpecs()))(getManOverhead())),
       Mean: Math.round(addoverhead(R.mean(estimate))(getManOverhead())),
       Median: Math.round(addoverhead(R.median(estimate))(getManOverhead())),
-      '60%': Math.round( addoverhead(sorted[Math.ceil(sorted.length * 0.6)])(getManOverhead()) ),
-      '70%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.7)])(getManOverhead())),
-      '80%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.8)])(getManOverhead())),
-      '90%': Math.round(addoverhead(sorted[Math.ceil(sorted.length * 0.9)])(getManOverhead()))
+      '60%': Math.round(
+        addoverhead(sorted[Math.ceil(sorted.length * 0.6)])(getManOverhead())
+      ),
+      '70%': Math.round(
+        addoverhead(sorted[Math.ceil(sorted.length * 0.7)])(getManOverhead())
+      ),
+      '80%': Math.round(
+        addoverhead(sorted[Math.ceil(sorted.length * 0.8)])(getManOverhead())
+      ),
+      '90%': Math.round(
+        addoverhead(sorted[Math.ceil(sorted.length * 0.9)])(getManOverhead())
+      )
     }
   ])
   // console.log(addoverhead(R.mean(estimate))(getManOverhead()))

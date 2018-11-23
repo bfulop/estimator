@@ -1,12 +1,12 @@
 const R = require('ramda')
 
- const myspecs = [
-   [1, 3, 6, 0.8, 'edit invitee CSS'],
-   [0.5, 1.5, 4, 0.5, 'edit invitee JS'],
-   [2, 5, 12, 0.7, 'invitee auto-complete'],
-   [1, 2, 4, 0.8, 'directors list light theme'],
-   [1.5, 3.5, 5, 0.9, 'labels listing']
- ]
+const myspecs = [
+  [1, 3, 6, 0.8, 'edit invitee CSS'],
+  [0.5, 1.5, 4, 0.5, 'edit invitee JS'],
+  [2, 5, 12, 0.7, 'invitee auto-complete'],
+  [1, 2, 4, 0.8, 'directors list light theme'],
+  [1.5, 3.5, 5, 0.9, 'labels listing']
+]
 const myvectors = [
   0.475,
   2.381,
